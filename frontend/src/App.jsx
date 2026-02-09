@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { User, TrendingUp, LogOut, Menu, X } from 'lucide-react'
 import Dashboard from './pages/Dashboard'
 import ResumeAnalysis from './pages/ResumeAnalysis'
+import ContextAwareResume from './pages/ContextAwareResume'
 import MockInterview from './pages/MockInterview'
 import CareerPath from './pages/CareerPath'
 import AIMentor from './pages/AIMentor'
@@ -122,7 +123,8 @@ function App() {
           <Route path="/login" element={<Login setAuth={setIsAuthenticated} />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={isAuthenticated ? <Dashboard /> : <Login setAuth={setIsAuthenticated} />} />
-          <Route path="/resume" element={<ResumeAnalysis />} />
+          <Route path="/resume" element={<ContextAwareResume />} />
+          <Route path="/resume-old" element={<ResumeAnalysis />} />
           <Route path="/interview" element={<MockInterview />} />
           <Route path="/career" element={<CareerPath />} />
           <Route path="/ai-mentor" element={<AIMentor />} />
