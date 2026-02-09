@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth, resume, interview, career, job_match, project_ideas
+from app.routers import auth, resume, interview, career, job_match, project_ideas, career_intent
 from core.config import get_settings
 import logging
 
@@ -32,6 +32,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
+app.include_router(career_intent.router, prefix="/api/ai", tags=["AI - Context-Aware Resume"])
 app.include_router(resume.router, prefix="/api/ai/resume", tags=["AI - Resume Analysis"])
 app.include_router(interview.router, prefix="/api/ai/interview", tags=["AI - Mock Interview"])
 app.include_router(career.router, prefix="/api/ai/career", tags=["AI - Career Planning"])

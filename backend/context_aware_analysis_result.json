@@ -1,0 +1,274 @@
+{
+  "role_fit_score": 70,
+  "existing_skills": [
+    "SQL",
+    "Microsoft Excel",
+    "Python (Basic)",
+    "Communication",
+    "Teamwork",
+    "Data Cleaning",
+    "Data Preparation"
+  ],
+  "missing_skills": [
+    "Data Visualization (Tableau/Power BI)",
+    "Advanced Python (Pandas, Matplotlib, Seaborn)",
+    "Statistical Analysis",
+    "A/B Testing",
+    "Data Storytelling",
+    "Dashboarding Principles",
+    "Cloud Data Concepts (e.g., AWS S3, Google BigQuery)"
+  ],
+  "technical_skills_required": [
+    {
+      "skill": "SQL (Advanced)",
+      "importance": "High",
+      "why": "Crucial for complex data extraction, manipulation, and analysis in product/e-commerce data environments. Required for deeper insights.",
+      "current_level": "Intermediate",
+      "target_level": "Advanced",
+      "estimated_learning_time": "4-6 weeks"
+    },
+    {
+      "skill": "Python for Data Analysis (Pandas, NumPy, Matplotlib/Seaborn)",
+      "importance": "High",
+      "why": "Essential for robust data cleaning, transformation, statistical analysis, and advanced visualizations, especially in tech/startups.",
+      "current_level": "Basic",
+      "target_level": "Intermediate",
+      "estimated_learning_time": "8-12 weeks"
+    },
+    {
+      "skill": "Data Visualization Tool (Tableau or Power BI)",
+      "importance": "High",
+      "why": "Mandatory for creating interactive dashboards and reports to convey insights effectively to stakeholders in product-based companies.",
+      "current_level": "None",
+      "target_level": "Intermediate",
+      "estimated_learning_time": "6-8 weeks"
+    },
+    {
+      "skill": "Statistical Analysis & A/B Testing",
+      "importance": "Medium",
+      "why": "Important for understanding user behavior, product experimentation, and making data-driven decisions on features and marketing campaigns.",
+      "current_level": "None",
+      "target_level": "Basic",
+      "estimated_learning_time": "4-6 weeks"
+    },
+    {
+      "skill": "Cloud Data Fundamentals (e.g., AWS S3, Google BigQuery)",
+      "importance": "Low",
+      "why": "Product and tech companies often store data in cloud environments. Basic familiarity is beneficial for understanding data pipelines.",
+      "current_level": "None",
+      "target_level": "Basic",
+      "estimated_learning_time": "2-3 weeks"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Google Data Analytics Professional Certificate",
+      "provider": "Coursera / Google",
+      "description": "Covers foundational data analysis skills, including data cleaning, analysis, visualization, and soft skills using SQL, R, Tableau, and Excel.",
+      "duration": "Approx. 6 months (part-time)",
+      "level": "Beginner",
+      "link": "https://www.coursera.org/professional-certificates/google-data-analytics",
+      "why_recommended": "This certificate directly addresses several missing skills (Tableau, advanced data analysis concepts, data storytelling) and strengthens existing ones, making it highly relevant for a junior Data Analyst role.",
+      "priority": "High"
+    },
+    {
+      "name": "Microsoft Certified: Power BI Data Analyst Associate",
+      "provider": "Microsoft",
+      "description": "Validates skills in designing and building scalable data models, cleaning and transforming data, and enabling advanced analytic capabilities that provide meaningful business value through easy-to-understand data visualizations.",
+      "duration": "Varies (self-paced, exam requires preparation)",
+      "level": "Intermediate",
+      "link": "https://learn.microsoft.com/en-us/certifications/power-bi-data-analyst-associate/",
+      "why_recommended": "If the target companies heavily use the Microsoft ecosystem, this certification provides a strong demonstration of Power BI proficiency, a critical visualization tool.",
+      "priority": "Medium"
+    }
+  ],
+  "projects": [
+    {
+      "title": "E-commerce Sales & Marketing Performance Dashboard",
+      "skills_covered": [
+        "SQL (Advanced)",
+        "Python (Pandas, Matplotlib/Seaborn)",
+        "Data Visualization (Tableau/Power BI)",
+        "KPI Definition",
+        "Data Storytelling"
+      ],
+      "project_idea": "Build a comprehensive dashboard analyzing e-commerce sales and marketing data. This would involve cleaning raw transactional data (Python), performing advanced SQL queries to aggregate sales by product, category, region, and time, calculating key marketing metrics (e.g., conversion rate, average order value, customer lifetime value). Finally, create an interactive dashboard in Tableau or Power BI visualizing trends, identifying top-performing products/campaigns, and highlighting areas for improvement.",
+      "learning_outcomes": [
+        "Mastery of data cleaning and transformation using Python and SQL.",
+        "Proficiency in creating impactful, interactive dashboards with a leading BI tool.",
+        "Ability to define and track key business metrics.",
+        "Enhanced data storytelling and presentation skills."
+      ],
+      "resources": {
+        "dataset": "Kaggle datasets: 'E-commerce Public Dataset', 'Online Retail Dataset', 'Brazil E-commerce Public Dataset by Olist'",
+        "reference_repo": "Search GitHub for 'e-commerce data analysis tableau', 'e-commerce dashboard power bi python'"
+      },
+      "resume_bullets": [
+        "Developed an interactive E-commerce Sales & Marketing Performance Dashboard using [Tableau/Power BI], integrating data from SQL and Python, to visualize key KPIs such as conversion rates, AOV, and customer churn.",
+        "Engineered complex SQL queries to aggregate and transform transactional data from 50,000+ orders, enabling drill-down analysis on product performance and regional sales trends.",
+        "Utilized Python (Pandas) for data cleaning and feature engineering, preparing heterogeneous datasets for robust analysis and visualization."
+      ],
+      "estimated_time": "6-8 weeks",
+      "difficulty": "Intermediate"
+    },
+    {
+      "title": "Customer Behavior Analysis & A/B Test Simulation",
+      "skills_covered": [
+        "Python (Pandas, SciPy, Matplotlib/Seaborn)",
+        "Statistical Analysis",
+        "Hypothesis Testing",
+        "Data Simulation",
+        "SQL"
+      ],
+      "project_idea": "Analyze a dataset of website user behavior or app usage to identify distinct customer segments and propose strategies for each. Then, simulate an A/B test (e.g., for a new website feature or marketing campaign). Define hypotheses, calculate necessary sample sizes, simulate results, and perform statistical tests (e.g., t-test, chi-squared) to determine significance and make a recommendation. Document the methodology and findings.",
+      "learning_outcomes": [
+        "Application of statistical concepts and hypothesis testing in a practical scenario.",
+        "Proficiency in Python for data manipulation and statistical analysis.",
+        "Understanding of A/B testing principles and interpretation.",
+        "Ability to derive actionable insights from behavioral data."
+      ],
+      "resources": {
+        "dataset": "Kaggle datasets: 'Website A/B Testing Dataset', 'User Behavior and Interaction Data', 'App Usage Analytics'",
+        "reference_repo": "Search GitHub for 'python a/b testing analysis', 'customer segmentation python scikit-learn'"
+      },
+      "resume_bullets": [
+        "Conducted a comprehensive customer behavior analysis on 10,000+ user records using Python (Pandas, Scikit-learn) to identify three distinct user segments and inform targeted marketing strategies.",
+        "Simulated an A/B test for a hypothetical product feature, performing statistical analysis (t-tests) with Python (SciPy) to determine significance and recommend a data-driven launch decision.",
+        "Developed SQL queries to extract user interaction and demographic data, forming the basis for advanced segmentation and experimental design."
+      ],
+      "estimated_time": "4-6 weeks",
+      "difficulty": "Intermediate"
+    }
+  ],
+  "skill_matching": {
+    "fully_matching": [
+      {
+        "skill": "SQL",
+        "evidence": "Experience: 'Analyzed customer data using SQL queries'; Skills: 'SQL (MySQL, PostgreSQL)'; Projects: 'Customer Segmentation: Used SQL'"
+      },
+      {
+        "skill": "Microsoft Excel",
+        "evidence": "Experience: 'Created Excel reports for management'; Skills: 'Microsoft Excel (Pivot Tables, VLOOKUP)'; Projects: 'Sales Analysis Dashboard: Created Excel dashboard'"
+      },
+      {
+        "skill": "Communication and Teamwork",
+        "evidence": "Skills: 'Communication and Teamwork'"
+      },
+      {
+        "skill": "Data Cleaning and Preparation",
+        "evidence": "Experience: 'Assisted in data cleaning and preparation'"
+      }
+    ],
+    "partially_matching": [
+      {
+        "skill": "Python",
+        "current_level": "Basic",
+        "target_level": "Intermediate",
+        "gap_description": "Currently listed as 'Basic Python'; needs development in data-specific libraries (Pandas, NumPy, Matplotlib, Seaborn) for robust analysis, manipulation, and visualization, beyond basic scripting."
+      }
+    ],
+    "completely_missing": [
+      {
+        "skill": "Data Visualization Tools (Tableau/Power BI)",
+        "importance": "Critical",
+        "learning_path": "Complete the Google Data Analytics Certificate which includes Tableau, or take specific courses on Tableau/Power BI and build dashboard projects."
+      },
+      {
+        "skill": "Statistical Analysis & A/B Testing",
+        "importance": "Important",
+        "learning_path": "Enroll in online courses covering basic statistics for data analysis, hypothesis testing, and A/B testing principles. Implement these concepts in Python projects."
+      },
+      {
+        "skill": "Data Storytelling & Presentation",
+        "importance": "Important",
+        "learning_path": "Focus on communicating insights effectively in projects, practicing explaining findings, and taking courses on data storytelling (e.g., from Coursera/edX)."
+      }
+    ]
+  },
+  "resume_improvements": [
+    {
+      "section": "Summary/Objective",
+      "current_issue": "Missing a concise summary statement that highlights career goals, key skills, and relevant experience.",
+      "suggestion": "Add a 3-4 line 'Summary' or 'Objective' section at the top, immediately below contact information. Tailor it to explicitly mention 'Data Analyst' roles in 'Tech' or 'E-commerce' and quantify achievements.",
+      "priority": "High"
+    },
+    {
+      "section": "Experience",
+      "current_issue": "Bullet points are descriptive but lack quantifiable impact and context.",
+      "suggestion": "Rewrite experience bullets to be more action-oriented and quantifiable. Emphasize the 'what' (action), 'how' (tools/methods), and 'impact' (results/value).",
+      "priority": "High"
+    },
+    {
+      "section": "Experience - Example Rewrite",
+      "current_issue": "'Analyzed customer data using SQL queries'",
+      "suggestion": "Revised: 'Analyzed transactional and demographic data for 50,000+ customers using advanced SQL queries (e.g., window functions, CTEs) to identify key purchasing patterns, contributing to a 10% improvement in targeted marketing campaign efficiency.'",
+      "priority": "High"
+    },
+    {
+      "section": "Skills",
+      "current_issue": "The 'Basic Python' is vague and soft skills are mixed with technical skills.",
+      "suggestion": "Break down the 'Skills' section into categories (e.g., 'Programming Languages', 'Databases', 'Data Visualization Tools', 'Soft Skills'). Specify Python libraries John is familiar with (even if basic) and indicate proficiency level. Add anticipated tools like Tableau/Power BI once proficiency is gained.",
+      "priority": "Medium"
+    },
+    {
+      "section": "Projects",
+      "current_issue": "Project descriptions are brief and don't highlight the technologies used or the complexity/impact.",
+      "suggestion": "Expand project descriptions to include specific tools/technologies used beyond just SQL/Excel. Quantify the data size or problem scope. Add a 'Results' or 'Impact' bullet point for each project.",
+      "priority": "High"
+    }
+  ],
+  "ats_optimization": {
+    "score": 65,
+    "missing_keywords": [
+      "Data Visualization",
+      "Tableau",
+      "Power BI",
+      "Pandas",
+      "NumPy",
+      "Matplotlib",
+      "Seaborn",
+      "Statistical Analysis",
+      "A/B Testing",
+      "KPIs",
+      "Dashboards",
+      "Business Intelligence",
+      "Product Analytics",
+      "E-commerce Analytics",
+      "Stakeholder Management"
+    ],
+    "formatting_issues": [
+      "Lack of a dedicated summary/objective section for keyword placement."
+    ],
+    "suggestions": [
+      "Add a 'Summary' section with target role keywords and quantifiable achievements.",
+      "Integrate missing technical keywords naturally into experience and project descriptions as skills are acquired.",
+      "Ensure consistency in skill naming (e.g., 'SQL' instead of 'SQL (MySQL, PostgreSQL)' if space is limited, but list specifics where relevant).",
+      "Use a clean, standard resume template that is easily parseable by ATS."
+    ]
+  },
+  "company_specific_advice": [
+    {
+      "company_type": "Product-based companies",
+      "what_they_look_for": "Strong analytical skills focused on user behavior, product performance metrics (e.g., conversion, engagement, churn), A/B testing experience, ability to work with large datasets, and strong communication for translating insights into product recommendations.",
+      "how_to_stand_out": "Develop projects that analyze user data (e.g., funnel analysis, cohort analysis, A/B testing simulation). Emphasize understanding of business metrics relevant to product growth and user experience. Highlight any experience contributing to feature improvements or data-driven product decisions."
+    },
+    {
+      "company_type": "Startups",
+      "what_they_look_for": "Adaptability, strong problem-solving skills, ability to wear multiple hats, resourcefulness, demonstrable impact, and a proactive approach to identifying and solving data challenges. Often look for a blend of technical skills and business acumen.",
+      "how_to_stand_out": "Showcase versatility through projects that cover different aspects of data analysis. Highlight instances of taking initiative and delivering tangible results with limited resources. Emphasize quick learning ability and enthusiasm for tackling diverse data problems. Network within the startup community."
+    },
+    {
+      "company_type": "Tech & E-commerce",
+      "what_they_look_for": "Proficiency in analyzing digital data (website traffic, sales, customer transactions), understanding of relevant metrics (e.g., conversion rates, customer acquisition cost, retention), experience with modern data tools and cloud environments, and the ability to drive business growth through data-driven insights.",
+      "how_to_stand_out": "Focus projects on e-commerce datasets, sales forecasting, customer segmentation, or marketing campaign analysis. Gain proficiency in tools commonly used in these sectors (e.g., Google Analytics, advanced SQL for transactional data). Show a keen interest in the specific industry and its challenges."
+    }
+  ],
+  "career_intent": {
+    "desired_role": "Data Analyst",
+    "experience_level": "0-2 years",
+    "target_companies": [
+      "Product-based companies",
+      "Startups"
+    ]
+  }
+}
