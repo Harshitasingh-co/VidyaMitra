@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+venv_py312/
+env/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+*.env
+!.env.example
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Build outputs
+dist/
+build/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Documentation (temporary files)
+IMPLEMENTATION_COMPLETE.md
+FINAL_STATUS.md
+QUICK_FIX_COMPLETE.md
+STARTUP_SUCCESS.md
+UI_ENHANCEMENTS_COMPLETE.md
+VERIFICATION_CHECKLIST.md
+TEST_LOGIN.md
+START_SERVER.md
+MILESTONES.md
+PROJECT_SUMMARY.md
