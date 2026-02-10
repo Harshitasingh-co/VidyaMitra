@@ -51,4 +51,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials"
         )
-    return {"email": email}
+    # Generate a consistent user ID from email
+    import hashlib
+    user_id = hashlib.md5(email.encode()).hexdigest()[:8]
+    return {"email": email, "id": user_id}

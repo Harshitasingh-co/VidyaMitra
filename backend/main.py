@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth, resume, interview, career, job_match, project_ideas, career_intent, advanced_interview, internship
+from app.routers import auth, resume, interview, career, job_match, project_ideas, career_intent, advanced_interview, internship, ai_mentor
 from core.config import get_settings
+from core.database import connect_to_mongo, close_mongo_connection
 import logging
 
 # Configure logging
@@ -15,7 +16,7 @@ settings = get_settings()
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="AI-Powered Educational Platform with GenAI Integration - Now with Job Matching & Project Generator",
+    description="AI-Powered Educational Platform with GenAI Integration - Now with MongoDB",
     version=settings.APP_VERSION,
     docs_url="/docs",
     redoc_url="/redoc"
@@ -40,18 +41,23 @@ app.include_router(career.router, prefix="/api/ai/career", tags=["AI - Career Pl
 app.include_router(job_match.router, prefix="/api/ai/job-match", tags=["AI - Job Matching"])
 app.include_router(project_ideas.router, prefix="/api/ai/projects", tags=["AI - Project Generator"])
 app.include_router(internship.router, prefix="/api/internships", tags=["Internship Discovery"])
+app.include_router(ai_mentor.router, prefix="/api/ai/mentor", tags=["AI - Conversational Mentor"])
 
 @app.on_event("startup")
 async def startup_event():
     """Initialize services on startup"""
     logger.info("VidyaMitra API starting up...")
     logger.info(f"Gemini API configured: {bool(settings.GEMINI_API_KEY)}")
-    logger.info(f"Supabase configured: {bool(settings.SUPABASE_URL)}")
+    logger.info(f"MongoDB URL: {settings.MONGODB_URL}")
+    
+    # Connect to MongoDB
+    await connect_to_mongo()
 
 @app.on_event("shutdown")
 async def shutdown_event():
     """Cleanup on shutdown"""
     logger.info("VidyaMitra API shutting down...")
+    await close_mongo_connection()
 
 @app.get("/")
 async def root():
@@ -66,13 +72,15 @@ async def root():
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
+    from core.database import mongodb
+    
     return {
         "status": "healthy",
         "version": settings.APP_VERSION,
         "ai_model": "Google Gemini 1.5 Flash",
         "services": {
             "gemini": bool(settings.GEMINI_API_KEY),
-            "supabase": bool(settings.SUPABASE_URL),
+            "mongodb": mongodb.db is not None,
             "youtube": bool(settings.YOUTUBE_API_KEY),
             "google": bool(settings.GOOGLE_API_KEY)
         }

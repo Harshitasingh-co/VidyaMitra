@@ -16,9 +16,13 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
-    # Supabase
+    # Supabase (Legacy - replaced by MongoDB)
     SUPABASE_URL: str = os.getenv("SUPABASE_URL", "")
     SUPABASE_KEY: str = os.getenv("SUPABASE_KEY", "")
+    
+    # MongoDB Configuration
+    MONGODB_URL: str = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+    MONGODB_DB_NAME: str = os.getenv("MONGODB_DB_NAME", "vidyamitra")
     
     # OpenAI (Legacy - not used)
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
@@ -34,6 +38,20 @@ class Settings(BaseSettings):
     YOUTUBE_API_KEY: str = os.getenv("YOUTUBE_API_KEY", "")
     PEXELS_API_KEY: str = os.getenv("PEXELS_API_KEY", "")
     NEWS_API_KEY: str = os.getenv("NEWS_API_KEY", "")
+    
+    # Agora Conversational AI Agent
+    AGORA_APP_ID: str = os.getenv("AGORA_APP_ID", "")
+    AGORA_APP_CERTIFICATE: str = os.getenv("AGORA_APP_CERTIFICATE", "")
+    AGORA_CUSTOMER_ID: str = os.getenv("AGORA_CUSTOMER_ID", "")
+    AGORA_CUSTOMER_SECRET: str = os.getenv("AGORA_CUSTOMER_SECRET", "")
+    AGORA_LLM_API_KEY: str = os.getenv("AGORA_LLM_API_KEY", "")
+    AGORA_LLM_MODEL: str = os.getenv("AGORA_LLM_MODEL", "gemini-2.5-flash")
+    AGORA_TTS_VENDOR: str = os.getenv("AGORA_TTS_VENDOR", "cartesia")
+    AGORA_TTS_API_KEY: str = os.getenv("AGORA_TTS_API_KEY", "")
+    AGORA_TTS_MODEL_ID: str = os.getenv("AGORA_TTS_MODEL_ID", "sonic-3")
+    AGORA_TTS_VOICE_ID: str = os.getenv("AGORA_TTS_VOICE_ID", "")
+    AGORA_ASR_VENDOR: str = os.getenv("AGORA_ASR_VENDOR", "ares")
+    AGORA_ASR_LANGUAGE: str = os.getenv("AGORA_ASR_LANGUAGE", "en-US")
     
     # CORS
     CORS_ORIGINS: list = ["http://localhost:5173", "http://localhost:3000"]

@@ -77,14 +77,21 @@ function InternshipProfile() {
   const loadProfile = async () => {
     try {
       setLoading(true)
+      setError('') // Clear any previous errors
       const response = await internshipAPI.profile.get()
       if (response.data && response.data.success) {
         setFormData(response.data.data)
       }
     } catch (err) {
-      // Profile doesn't exist yet, that's okay
-      if (err.status !== 404) {
+      // Profile doesn't exist yet (404), that's okay - user will create one
+      if (err.status === 404) {
+        console.log('No profile found - user will create a new one')
+      } else {
         console.error('Error loading profile:', err)
+        // Only show error for non-404 errors
+        if (err.status !== 404) {
+          setError(`Failed to load profile: ${err.message || 'Please try again'}`)
+        }
       }
     } finally {
       setLoading(false)
@@ -128,6 +135,7 @@ function InternshipProfile() {
     
     if (!validateForm()) {
       setError('Please fix the validation errors')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
       return
     }
 
@@ -139,13 +147,17 @@ function InternshipProfile() {
       const response = await internshipAPI.profile.createOrUpdate(formData)
       
       if (response.data && response.data.success) {
-        setSuccess('Profile saved successfully!')
+        setSuccess('Profile saved successfully! You can now explore internship opportunities.')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+        // Navigate to dashboard after 2 seconds
         setTimeout(() => {
-          navigate('/internships')
-        }, 1500)
+          navigate('/dashboard')
+        }, 2000)
       }
     } catch (err) {
-      setError(err.message || 'Failed to save profile. Please try again.')
+      const errorMessage = err.message || 'Failed to save profile. Please try again.'
+      setError(errorMessage)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
       console.error('Error saving profile:', err)
     } finally {
       setSaving(false)
@@ -642,7 +654,7 @@ function InternshipProfile() {
           <button
             type="button"
             className="btn btn-secondary"
-            onClick={() => navigate('/internships')}
+            onClick={() => navigate('/')}
             disabled={saving}
           >
             Cancel

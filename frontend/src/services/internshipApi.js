@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001/api'
 
 const api = axios.create({
   baseURL: API_URL,
@@ -26,11 +26,35 @@ api.interceptors.response.use(
     if (error.response) {
       // Server responded with error status
       const errorData = error.response.data
+      
+      // Handle different error formats from backend
+      let code = 'UNKNOWN_ERROR'
+      let message = error.message
+      let details = {}
+      
+      if (errorData?.detail) {
+        // FastAPI format: { detail: { code, message, details } } or { detail: "string" }
+        if (typeof errorData.detail === 'string') {
+          message = errorData.detail
+        } else {
+          code = errorData.detail.code || code
+          message = errorData.detail.message || message
+          details = errorData.detail.details || details
+        }
+      } else if (errorData?.error) {
+        // Custom format: { error: { code, message, details } }
+        code = errorData.error.code || code
+        message = errorData.error.message || message
+        details = errorData.error.details || details
+      } else if (errorData?.message) {
+        message = errorData.message
+      }
+      
       return Promise.reject({
         status: error.response.status,
-        code: errorData?.error?.code || 'UNKNOWN_ERROR',
-        message: errorData?.error?.message || error.message,
-        details: errorData?.error?.details || {}
+        code: code,
+        message: message,
+        details: details
       })
     } else if (error.request) {
       // Request made but no response received

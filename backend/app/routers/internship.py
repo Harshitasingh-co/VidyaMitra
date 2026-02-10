@@ -24,8 +24,8 @@ from app.models.internship import (
     InternshipCalendarResponse,
     ScamReportCreate,
 )
-from app.services.internship_service import (
-    InternshipService,
+from app.services.internship_service_mongo import (
+    InternshipServiceMongo,
     ProfileValidationError,
     ProfileNotFoundError,
     DatabaseOperationError,
@@ -33,53 +33,39 @@ from app.services.internship_service import (
 from core.security import get_current_user
 from core.config import get_settings
 from utils.response_formatter import get_response_formatter
-from supabase import create_client, Client
+from core.database import get_database
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 settings = get_settings()
 
-# Initialize Supabase client
-supabase: Client = None
-try:
-    if settings.SUPABASE_URL and settings.SUPABASE_KEY and \
-       not settings.SUPABASE_URL.startswith('your-') and \
-       not settings.SUPABASE_KEY.startswith('your-'):
-        supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
-        logger.info("Supabase client initialized successfully for internship router")
-    else:
-        logger.warning("Supabase not configured - internship endpoints will not work")
-except Exception as e:
-    logger.warning(f"Failed to initialize Supabase: {e}")
+# Fallback in-memory storage if MongoDB not available
+in_memory_profiles = {}
 
 
-def get_internship_service() -> InternshipService:
+def get_internship_service() -> Optional[InternshipServiceMongo]:
     """
-    Dependency to get InternshipService instance
+    Dependency to get InternshipServiceMongo instance
     
     Returns:
-        InternshipService instance
-        
-    Raises:
-        HTTPException: If Supabase is not configured
+        InternshipServiceMongo instance or None for in-memory mode
     """
-    if not supabase:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="Internship service not available - database not configured"
-        )
-    return InternshipService(supabase)
+    db = get_database()
+    if db is None:
+        logger.info("Using in-memory storage mode for internship profiles")
+        return None  # Signal to use in-memory storage
+    return InternshipServiceMongo()
 
 
 # ============================================================================
 # Profile Management Endpoints
 # ============================================================================
 
-@router.post("/profile", response_model=StudentProfile, status_code=status.HTTP_201_CREATED)
+@router.post("/profile", status_code=status.HTTP_201_CREATED)
 async def create_or_update_profile(
     profile: StudentProfileCreate,
     current_user: dict = Depends(get_current_user),
-    service: InternshipService = Depends(get_internship_service)
+    service: Optional[InternshipServiceMongo] = Depends(get_internship_service)
 ):
     """
     Create or update student profile
@@ -107,11 +93,24 @@ async def create_or_update_profile(
     **Errors**:
     - 400: Validation error (invalid semester, graduation year, etc.)
     - 401: Unauthorized (missing or invalid token)
-    - 503: Service unavailable (database not configured)
     """
     try:
         user_id = current_user.get("email") or current_user.get("sub")
         logger.info(f"Creating/updating profile for user: {user_id}")
+        
+        # Use in-memory storage if service is None
+        if service is None:
+            logger.info("Using in-memory storage for profile")
+            profile_data = profile.model_dump()
+            profile_data["user_id"] = user_id
+            profile_data["id"] = user_id  # Use user_id as profile ID
+            in_memory_profiles[user_id] = profile_data
+            
+            formatter = get_response_formatter()
+            return formatter.success(
+                profile_data,
+                "Profile saved successfully (in-memory mode)"
+            )
         
         # Create or update profile using service
         result = await service.create_profile(user_id, profile)
@@ -154,10 +153,10 @@ async def create_or_update_profile(
         )
 
 
-@router.get("/profile", response_model=StudentProfile)
+@router.get("/profile")
 async def get_profile(
     current_user: dict = Depends(get_current_user),
-    service: InternshipService = Depends(get_internship_service)
+    service: Optional[InternshipServiceMongo] = Depends(get_internship_service)
 ):
     """
     Get current user's student profile
@@ -173,11 +172,33 @@ async def get_profile(
     **Errors**:
     - 401: Unauthorized (missing or invalid token)
     - 404: Profile not found (user hasn't created a profile yet)
-    - 503: Service unavailable (database not configured)
     """
     try:
         user_id = current_user.get("email") or current_user.get("sub")
         logger.info(f"Retrieving profile for user: {user_id}")
+        
+        # Use in-memory storage if service is None
+        if service is None:
+            logger.info("Using in-memory storage for profile retrieval")
+            profile_data = in_memory_profiles.get(user_id)
+            
+            if not profile_data:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail={
+                        "code": "PROFILE_NOT_FOUND",
+                        "message": "Student profile not found",
+                        "details": {
+                            "action": "Create a profile at POST /api/internships/profile"
+                        }
+                    }
+                )
+            
+            formatter = get_response_formatter()
+            return formatter.success(
+                profile_data,
+                "Profile retrieved successfully (in-memory mode)"
+            )
         
         # Get profile using service
         result = await service.get_profile(user_id)
@@ -228,7 +249,7 @@ async def get_profile(
 async def update_profile(
     profile_update: StudentProfileUpdate,
     current_user: dict = Depends(get_current_user),
-    service: InternshipService = Depends(get_internship_service)
+    service: Optional[InternshipServiceMongo] = Depends(get_internship_service)
 ):
     """
     Update existing student profile (partial update)
@@ -323,7 +344,7 @@ async def update_profile(
 @router.get("/calendar", response_model=InternshipCalendarResponse)
 async def get_internship_calendar(
     current_user: dict = Depends(get_current_user),
-    service: InternshipService = Depends(get_internship_service)
+    service: Optional[InternshipServiceMongo] = Depends(get_internship_service)
 ):
     """
     Get personalized internship calendar based on semester
@@ -449,7 +470,7 @@ async def get_internship_details(
 async def verify_internship(
     internship_id: str,
     current_user: dict = Depends(get_current_user),
-    service: InternshipService = Depends(get_internship_service)
+    service: Optional[InternshipServiceMongo] = Depends(get_internship_service)
 ):
     """
     Get verification status and fraud analysis
@@ -595,7 +616,7 @@ async def verify_internship(
 async def calculate_skill_match(
     internship_id: str,
     current_user: dict = Depends(get_current_user),
-    service: InternshipService = Depends(get_internship_service)
+    service: Optional[InternshipServiceMongo] = Depends(get_internship_service)
 ):
     """
     Calculate skill match percentage and identify gaps
@@ -738,7 +759,7 @@ async def calculate_skill_match(
 async def get_career_guidance(
     internship_id: str,
     current_user: dict = Depends(get_current_user),
-    service: InternshipService = Depends(get_internship_service)
+    service: Optional[InternshipServiceMongo] = Depends(get_internship_service)
 ):
     """
     Get AI-powered career guidance for internship

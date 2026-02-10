@@ -5,7 +5,7 @@ python-multipart==0.0.6
 
 # Configuration and Environment
 python-dotenv==1.0.0
-pydantic==2.5.3
+pydantic>=2.7.4,<3.0.0
 pydantic-settings==2.1.0
 
 # Security and Authentication
@@ -14,6 +14,8 @@ passlib[bcrypt]==1.7.4
 
 # Database
 supabase==2.3.0
+motor==3.3.2
+pymongo==4.6.1
 
 # AI and LLM
 openai==1.58.1
@@ -31,3 +33,4 @@ python-docx==1.1.0
 
 # Utilities
 requests==2.31.0
+agora-token-builder==1.0.0

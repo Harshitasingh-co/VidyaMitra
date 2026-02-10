@@ -1,39 +1,35 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 from core.security import (
     create_access_token,
-    get_password_hash,
-    verify_password,
     get_current_user
 )
 from core.config import get_settings
+from core.database import get_database
+from app.services.auth_service_mongo import get_auth_service
 from utils.response_formatter import get_response_formatter
 from datetime import timedelta
-from supabase import create_client, Client
 import logging
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
 settings = get_settings()
 
-# Initialize Supabase client (only if valid credentials provided)
-supabase: Client = None
-try:
-    if settings.SUPABASE_URL and settings.SUPABASE_KEY and \
-       not settings.SUPABASE_URL.startswith('your-') and \
-       not settings.SUPABASE_KEY.startswith('your-'):
-        supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_KEY)
-        logger.info("Supabase client initialized successfully")
-    else:
-        logger.warning("Supabase not configured - using in-memory storage")
-except Exception as e:
-    logger.warning(f"Failed to initialize Supabase: {e}. Using in-memory storage.")
-
 class UserRegister(BaseModel):
     email: EmailStr
     password: str
     full_name: str
+    
+    @field_validator('password')
+    @classmethod
+    def validate_password(cls, v):
+        # Bcrypt has a 72 byte limit
+        if len(v.encode('utf-8')) > 72:
+            # Truncate to 72 bytes
+            v_bytes = v.encode('utf-8')[:72]
+            v = v_bytes.decode('utf-8', errors='ignore')
+        return v
 
 class Token(BaseModel):
     access_token: str
@@ -43,38 +39,33 @@ class Token(BaseModel):
 async def register(user: UserRegister):
     """
     Register a new user
-    Uses Supabase Auth for user management
+    Uses MongoDB for user management
     """
     try:
         logger.info(f"Registering new user: {user.email}")
         
-        if not supabase:
-            raise HTTPException(
-                status_code=500,
-                detail="Authentication service not configured"
-            )
+        auth_service = get_auth_service()
         
-        # Register with Supabase
-        response = supabase.auth.sign_up({
-            "email": user.email,
-            "password": user.password,
-            "options": {
-                "data": {
-                    "full_name": user.full_name
-                }
-            }
-        })
+        # Create user with MongoDB
+        from app.models.user import UserCreate
+        user_create = UserCreate(
+            email=user.email,
+            password=user.password,
+            full_name=user.full_name
+        )
         
-        if response.user:
-            formatter = get_response_formatter()
-            return formatter.success({
-                "user_id": response.user.id,
-                "email": response.user.email,
-                "full_name": user.full_name
-            }, "User registered successfully")
-        else:
-            raise HTTPException(status_code=400, detail="Registration failed")
+        new_user = await auth_service.create_user(user_create)
+        
+        formatter = get_response_formatter()
+        return formatter.success({
+            "user_id": new_user.id,
+            "email": new_user.email,
+            "full_name": new_user.full_name
+        }, "User registered successfully")
             
+    except ValueError as e:
+        logger.warning(f"Registration validation failed: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         logger.error(f"Registration failed: {e}")
         raise HTTPException(status_code=400, detail=f"Registration failed: {str(e)}")
@@ -87,30 +78,21 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     try:
         logger.info(f"Login attempt for: {form_data.username}")
         
-        if not supabase:
-            # Fallback: Create token without Supabase
-            logger.warning("Supabase not configured, using fallback auth")
-            access_token = create_access_token(
-                data={"sub": form_data.username},
-                expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-            )
-            return {"access_token": access_token, "token_type": "bearer"}
+        auth_service = get_auth_service()
         
-        # Authenticate with Supabase
-        response = supabase.auth.sign_in_with_password({
-            "email": form_data.username,
-            "password": form_data.password
-        })
+        # Authenticate with MongoDB
+        user = await auth_service.authenticate_user(form_data.username, form_data.password)
         
-        if not response.user:
+        if not user:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Incorrect email or password"
+                detail="Incorrect email or password",
+                headers={"WWW-Authenticate": "Bearer"}
             )
         
-        # Create JWT token
+        # Create JWT token with user ID
         access_token = create_access_token(
-            data={"sub": response.user.email},
+            data={"sub": user.email, "user_id": user.id},
             expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         )
         
