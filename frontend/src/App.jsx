@@ -7,6 +7,7 @@ import ContextAwareResume from './pages/ContextAwareResume'
 import MockInterview from './pages/MockInterview'
 import CareerPath from './pages/CareerPath'
 import AIMentor from './pages/AIMentor'
+import InternshipProfile from './pages/InternshipProfile'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import './App.css'
@@ -128,6 +129,7 @@ function App() {
           <Route path="/interview" element={<MockInterview />} />
           <Route path="/career" element={<CareerPath />} />
           <Route path="/ai-mentor" element={<AIMentor />} />
+          <Route path="/internship-profile" element={<InternshipProfile />} />
         </Routes>
       </div>
     </Router>

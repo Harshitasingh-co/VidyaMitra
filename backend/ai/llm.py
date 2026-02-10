@@ -14,8 +14,30 @@ class LLMService:
             raise ValueError("GEMINI_API_KEY not found in environment variables")
         
         genai.configure(api_key=settings.GEMINI_API_KEY)
-        self.model = genai.GenerativeModel('gemini-2.5-flash')
-        logger.info(f"LLM initialized with Gemini 1.5 Flash")
+        
+        # List available models to find the right one
+        try:
+            available_models = []
+            for model in genai.list_models():
+                if 'generateContent' in model.supported_generation_methods:
+                    available_models.append(model.name)
+            
+            logger.info(f"Available models: {available_models}")
+            
+            # Try to use the first available model that supports generateContent
+            if available_models:
+                # Remove 'models/' prefix if present
+                model_name = available_models[0].replace('models/', '')
+                self.model = genai.GenerativeModel(model_name)
+                logger.info(f"LLM initialized with {model_name}")
+            else:
+                raise ValueError("No models available that support generateContent")
+                
+        except Exception as e:
+            logger.error(f"Failed to initialize model: {e}")
+            # Fallback to a common model name
+            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            logger.info(f"LLM initialized with fallback model: gemini-1.5-flash")
     
     async def generate_json_response(self, system_prompt: str, user_prompt: str) -> dict:
         """

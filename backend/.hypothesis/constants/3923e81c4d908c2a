@@ -1,0 +1,4 @@
+# file: /Users/harshitasingh/Desktop/Vidyamitra/backend/app/services/matching_service.py
+# hypothesis_version: 6.151.5
+
+[0.3, 0.7, 100, '1-2 weeks', '3-4 weeks', '6-8 weeks', 'GitHub Learning Lab', 'High', 'How to GraphQL', 'Kaggle Learn: Pandas', 'Learn-C.org', 'LearnCpp.com', 'Low', 'Medium', 'MongoDB University', 'PostgreSQL Exercises', 'Scrimba: Learn React', 'Vue Mastery Courses', 'angular', 'aws', 'c', 'c++', 'css', 'data analysis', 'data science', 'default', 'distributed systems', 'django', 'docker', 'easy', 'flask', 'git', 'graphql', 'hard', 'html', 'internship', 'java', 'javascript', 'kubernetes', 'machine learning', 'match_percentage', 'matching_skills', 'medium', 'missing_skills', 'mongodb', 'node.js', 'numpy', 'pandas', 'postgresql', 'python', 'react', 'rest api', 'sql', 'system design', 'vue']

@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth, resume, interview, career, job_match, project_ideas, career_intent
+from app.routers import auth, resume, interview, career, job_match, project_ideas, career_intent, advanced_interview, internship
 from core.config import get_settings
 import logging
 
@@ -35,9 +35,11 @@ app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(career_intent.router, prefix="/api/ai", tags=["AI - Context-Aware Resume"])
 app.include_router(resume.router, prefix="/api/ai/resume", tags=["AI - Resume Analysis"])
 app.include_router(interview.router, prefix="/api/ai/interview", tags=["AI - Mock Interview"])
+app.include_router(advanced_interview.router, prefix="/api/ai/advanced-interview", tags=["AI - Advanced Mock Interview"])
 app.include_router(career.router, prefix="/api/ai/career", tags=["AI - Career Planning"])
 app.include_router(job_match.router, prefix="/api/ai/job-match", tags=["AI - Job Matching"])
 app.include_router(project_ideas.router, prefix="/api/ai/projects", tags=["AI - Project Generator"])
+app.include_router(internship.router, prefix="/api/internships", tags=["Internship Discovery"])
 
 @app.on_event("startup")
 async def startup_event():

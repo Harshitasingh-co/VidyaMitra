@@ -1,0 +1,4 @@
+# file: /Users/harshitasingh/Desktop/Vidyamitra/backend/app/services/calendar_service.py
+# hypothesis_version: 6.151.5
+
+['April', 'Aug-Oct', 'August', 'Dec-Jan', 'December', 'February', 'Flexible', 'Internship Starts', 'Jan-Apr', 'Jan-Mar', 'January', 'Jul-Sep', 'July', 'June', 'March', 'May', 'May-Jul', 'November', 'October', 'Ongoing', 'Pre-Placement', 'September', 'Skill Building', 'Summer Internships', 'apply_months', 'apply_window', 'current_month', 'current_status', 'description', 'focus', 'internship_months', 'internship_period', 'internships', 'month', 'month_number', 'months_to_prepare', 'preparation_status', 'recommendation', 'recommended_actions', 'semester', 'target_month', 'type', 'upcoming_deadlines', 'weeks_to_prepare']

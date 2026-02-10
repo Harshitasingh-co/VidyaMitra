@@ -79,7 +79,7 @@ function ContextAwareResume() {
     setError(null)
     
     try {
-      const response = await axios.post(`${API_URL}/career-intent`, careerIntent)
+      const response = await axios.post(`${API_URL}/ai/career-intent`, careerIntent)
       setIntentId(response.data.intent_id)
       setCurrentStep(2)
     } catch (err) {
@@ -105,11 +105,11 @@ function ContextAwareResume() {
       // Upload resume
       const formData = new FormData()
       formData.append('file', file)
-      const uploadRes = await axios.post(`${API_URL}/resume/upload`, formData)
+      const uploadRes = await axios.post(`${API_URL}/ai/resume/upload`, formData)
       const resumeText = uploadRes.data.data?.full_text || uploadRes.data.full_text
       
       // Analyze with context
-      const analysisRes = await axios.post(`${API_URL}/context-aware-analyze`, {
+      const analysisRes = await axios.post(`${API_URL}/ai/context-aware-analyze`, {
         resume_text: resumeText,
         intent_id: intentId
       })
@@ -851,7 +851,7 @@ function ContextAwareResume() {
                 <div style={{ fontSize: '48px', fontWeight: '800', marginBottom: '8px' }}>
                   {analysis.ats_optimization.score}/100
                 </div>
-                <div style={{ fontSize: '16px', opacity: 0.9' }}>
+                <div style={{ fontSize: '16px', opacity: 0.9 }}>
                   ATS Compatibility Score
                 </div>
               </div>

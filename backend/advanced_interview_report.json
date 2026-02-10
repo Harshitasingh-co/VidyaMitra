@@ -1,0 +1,24 @@
+{
+  "session_id": "interview_test_user_123_58fefee1",
+  "overall_score": 0.0,
+  "technical": null,
+  "aptitude": null,
+  "soft_skills": null,
+  "cheating_flags": {
+    "tab_switches": 0,
+    "paste_attempts": 0,
+    "suspicious_speed": true,
+    "identical_answers": false,
+    "severity": "low"
+  },
+  "next_actions": [
+    "Attempt 2-3 more mock interviews this week"
+  ],
+  "interview_duration": 6,
+  "readiness_level": "needs_significant_improvement",
+  "weights_used": {
+    "technical": 35.0,
+    "aptitude": 35.0,
+    "soft_skills": 30.0
+  }
+}

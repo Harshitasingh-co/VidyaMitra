@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { FileText, MessageSquare, TrendingUp, Bot, Sparkles } from 'lucide-react'
+import { FileText, MessageSquare, TrendingUp, Bot, Sparkles, Briefcase } from 'lucide-react'
 import './Dashboard.css'
 
 function Dashboard() {
@@ -27,6 +27,14 @@ function Dashboard() {
       link: '/career',
       gradient: 'linear-gradient(135deg, #ed8936 0%, #dd6b20 100%)',
       iconColor: '#ed8936'
+    },
+    {
+      title: 'Internship Discovery',
+      description: 'Find genuine, skill-aligned internships with fraud detection and personalized recommendations',
+      icon: Briefcase,
+      link: '/internship-profile',
+      gradient: 'linear-gradient(135deg, #3182ce 0%, #2c5282 100%)',
+      iconColor: '#3182ce'
     },
     {
       title: 'AI Mentor',
